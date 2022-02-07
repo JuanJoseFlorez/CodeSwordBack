@@ -109,14 +109,6 @@ const loginUser = async (req, res) => {
         const payload = { email: mail, password: password };
         const jwtToken = jwt.sign(payload, process.env.LLAVE, {
             expiresIn: '24h'
-        }, (err, token) => {
-
-            if (err) {
-                console.log(err);
-                reject('No se pudo generar el token')
-            } else {
-                resolve(token);
-            }
         })
 
         res.status(200).json({
