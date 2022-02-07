@@ -97,7 +97,7 @@ const loginUser = async (req, res) => {
         
         const result = await userCollention.findOne({ email: mail});
         if(!result){
-            res.status(401).json({ message: "Usuario no valido"})
+            res.status(401).json({ message: "Correo no valido"})
         }
 
         const validacion = bcrypt.compareSync(password, result.password);
@@ -106,7 +106,7 @@ const loginUser = async (req, res) => {
             res.status(401).json({ message: "Contraseña invalida"})
         }
 
-            const payload = { mail: mail, password: password };
+            const payload = { email: mail, password: password };
             const jwtToken = jwt.sign(payload, process.env.LLAVE,{
                 expiresIn: '24h'
             })
