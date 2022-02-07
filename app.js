@@ -2,7 +2,7 @@ const mongose = require("./conexion");
 require('dotenv').config();
 const express = require('express');
 //const cors = require('cors') PROYECTOS INDEPENDIENTES
-const PORT = process.env.SERVER_PORT;
+const PORT = 5000;
 const app = express();
 app.use(express.json());
 
