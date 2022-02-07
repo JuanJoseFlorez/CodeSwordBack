@@ -92,16 +92,19 @@ const deleteUser = async (req, res) =>{
 }
 
 const loginUser = async (req, res) => {
+    const { mail, password } = req.body;
     try{
-
-        const { mail, password } = req.body;
-        const result = await userCollention.findOne({ mail: mail});
+        
+        const result = await userCollention.findOne({ email: mail});
+        if(!result){
+            res.status(401).json({ message: "Usuario no valido"})
+        }
 
         const validacion = bcrypt.compareSync(password, result.password);
 
         if(!validacion){
-            res.status(401).json({ message: "Usuario o contraseña invalida"})
-        } else {
+            res.status(401).json({ message: "Contraseña invalida"})
+        }
 
             const payload = { mail: mail, password: password };
             const jwtToken = jwt.sign(payload, process.env.LLAVE,{
@@ -112,8 +115,6 @@ const loginUser = async (req, res) => {
                 message: "Inicio de sesión éxitoso",
                 token: jwtToken
             })
-
-        }
 
     }catch(error){
         res.status(500).json({ message: "Ocurrio un error"})
