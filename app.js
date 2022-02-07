@@ -14,6 +14,6 @@ const user = require('./routes/user.routes');
 app.use('/user', user);
 
 //servidor
-app.listen(PORT,  () => {
+app.listen(process.env.PORT || 5000,  () => {
     console.log(`Servidor corriendo en el puerto ` + PORT)
 })
