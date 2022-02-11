@@ -103,7 +103,16 @@ const loginUser = async (req, res) => {
             res.status(401).json({ message: "Usuario o contraseña invalida"})
         } else {
 
-            const payload = { email: email, password: password };
+            //console.log(result);
+
+            const payload = { 
+                profileImage: result.profileImage,
+                user: result.user,
+                name: result.name,
+                email: result.email, 
+                password: result.password 
+            };
+
             const jwtToken = jwt.sign(payload, process.env.LLAVE,{
                 expiresIn: '24h'
             })
@@ -130,9 +139,9 @@ const validateToken = async (req, res) => {
     
     jwt.verify(token, process.env.LLAVE, (error, decoded) =>{
         if(error){
-            return res.status(401).json({ message: "Token false" });
+            return res.status(401).json({ message: "Token Invalido" });
         }else{
-            return res.status(200).json({ message: "Token true" });
+            return res.status(200).json({ message: "Token Valido", datos: decoded });
         }
     })
 }
