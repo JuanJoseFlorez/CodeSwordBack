@@ -6,26 +6,43 @@ const jwt = require('jsonwebtoken');
 const userCollention = mongose.model("user",{
     profileImage: String,
     user: String, 
+    typeUser: Number,
     name: String, 
     email: String, 
-    password: String
+    password: String,
+    phoneNumber: String,
+    gender: String,
+    birthDate: Date,
+    country: String
 })
 
 const createUser = async (req, res) => {
-    const { profileImage, user, name, email, password } = req.body;
+    const { profileImage, user, typeUser, name, email, password, phoneNumber, gender, birthDate, country } = req.body;
 
-    if(!profileImage || !user || !name || !email || !password){
+    if(!profileImage || !user || !typeUser || !name || !email || !password || !phoneNumber || !gender || !birthDate || !country) {
         return res.status(400).json({ message: "Datos requeridos"})
     } else {
 
         const encrypted_password = bcrypt.hashSync(password, 10);
-        
+
+        const day = birthDate.substring(0,2);
+        const month = birthDate.substring(3,5);
+        const year = birthDate.substring(6,10);
+
+        const date = new Date(year, (month-1), day, 0, 0);
+
+
         let result_user = {
             profileImage: profileImage,
             user: user,
+            typeUser: typeUser,
             name: name,
             email: email,
-            password: encrypted_password
+            password: encrypted_password,
+            phoneNumber: phoneNumber,
+            gender: gender,
+            birthDate: date,
+            country: country,
         }
 
         try{
@@ -41,23 +58,37 @@ const createUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
 
-    const { id, profileImage, user, name, email, password } = req.body;
+    const { id, profileImage, user, typeUser, name, email, password, phoneNumber, gender, birthDate, country } = req.body;
 
-    if(!id || !profileImage || !user || !name || !email || !password){
+    if(!id || !profileImage || !user || !typeUser || !name || !email || !password || !phoneNumber || !gender || !birthDate || !country){
         return res.status(400).json({ message: "Datos requeridos"})
     } else {
 
+        const seatchResult = await userCollention.findOne({ _id: id });
+        if(seatchResult === null) return res.status(404).json({ message: "El usuario no existe"});
+
         const encrypted_password = bcrypt.hashSync(password, 10);
-        
+
+        const day = birthDate.substring(0,2);
+        const month = birthDate.substring(3,5);
+        const year = birthDate.substring(6,10);
+
+        const date = new Date(year, (month-1), day, 0, 0);
+
         const filter = { _id: id }
 
         let result_user = {
             $set:{
                 profileImage: profileImage,
                 user: user,
+                typeUser: typeUser,
                 name: name,
                 email: email,
-                password: encrypted_password
+                password: encrypted_password,
+                phoneNumber: phoneNumber,
+                gender: gender,
+                birthDate: date,
+                country: country,
             },
         }
 
@@ -78,6 +109,9 @@ const deleteUser = async (req, res) =>{
     if(!id){
         return res.status(400).json({ message: "El ID es requerido"})
     } else {
+
+        const seatchResult = await userCollention.findOne({ _id: id });
+        if(seatchResult === null) return res.status(404).json({ message: "El usuario no existe"});
 
         try{
             const result = await userCollention.deleteOne({ _id: id });
@@ -102,15 +136,18 @@ const loginUser = async (req, res) => {
         if(!validacion){
             res.status(401).json({ message: "Usuario o contraseña invalida"})
         } else {
-
-            //console.log(result);
-
+    
             const payload = { 
                 profileImage: result.profileImage,
                 user: result.user,
+                typeUser: result.typeUser,
                 name: result.name,
-                email: result.email, 
-                password: result.password 
+                email: result.email,
+                password: result.password,
+                phoneNumber: result.phoneNumber,
+                gender: result.gender,
+                birthDate: result.birthDate,
+                country: result.country,
             };
 
             const jwtToken = jwt.sign(payload, process.env.LLAVE,{
@@ -131,13 +168,15 @@ const loginUser = async (req, res) => {
 }
 
 const validateToken = async (req, res) => {
-    const { token } = req.params
+    const token = req.headers["authorization"];
 
     if(!token){
         return res.status(401).json({ message:"datos faltantes"});
     }
     
-    jwt.verify(token, process.env.LLAVE, (error, decoded) =>{
+    const jwtClient = token.split(" ")[1];
+
+    jwt.verify(jwtClient, process.env.LLAVE, (error, decoded) =>{
         if(error){
             return res.status(401).json({ message: "Token Invalido" });
         }else{

@@ -10,13 +10,13 @@ router.post('/createUser', userController.createUser);
 router.put('/updateUser', middlewareLogin.middleLogin, userController.updateUser);
 
 //Ruta para actualizar Usuario
-router.delete('/deleteUser', middlewareLogin.middleLogin, userController.deleteUser);
+router.delete('/deleteUser', middlewareLogin.middleLoginAdmin, userController.deleteUser);
 
 //Ruta para loguearse
 router.post('/login', userController.loginUser);
 
 //Ruta para validar el token de X usuario
-router.get('/validateToken/:token', userController.validateToken);
+router.get('/validateToken', userController.validateToken);
 
 //Exportar rutas a la App
 module.exports = router;
