@@ -14,6 +14,9 @@ const filterCategories = require('./routes/filterCategories.routes');
 const filterLabels = require('./routes/filterLabels.routes');
 const games = require('./routes/games.routes');
 const ratings = require('./routes/ratings.routes');
+const publications = require('./routes/publications.routes');
+const comments = require('./routes/commentsPublications.routes');
+const customerTicket = require('./routes/customerTicket.routes');
 
 //middlewares
 app.use(cors());
@@ -24,6 +27,9 @@ app.use('/filterCategories', filterCategories);
 app.use('/filterLabels', filterLabels);
 app.use('/games', games);
 app.use('/ratings', ratings);
+app.use('/publications', publications);
+app.use('/comments', comments);
+app.use('/customerTicket', customerTicket);
 
 //servidor
 app.listen(process.env.PORT || 5000,  () => {
