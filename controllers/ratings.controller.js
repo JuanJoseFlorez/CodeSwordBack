@@ -24,7 +24,7 @@ const createRating = async (req, res) => {
             const result = new ratings(result_rating);
             const response = await result.save();
 
-            res.status(200).json({ message: "Calificación creada con éxito", categoria: response})
+            res.status(200).json({ message: "Calificación creada con éxito", calificacion: response})
         }catch(error){ 
             res.status(500).json({ mesaage: "Ocurrio un error", error: error})
             console.error(`Ocurrio un error: ${error}`);

@@ -32,7 +32,7 @@ const createGame = async (req, res) => {
             const result = new games(result_game);
             const response = await result.save();
 
-            res.status(200).json({ message: "Juego creado con éxito", categoria: response})
+            res.status(200).json({ message: "Juego creado con éxito", juego: response})
         }catch(error){ 
             res.status(500).json({ mesaage: "Ocurrio un error", error: error})
             console.error(`Ocurrio un error: ${error}`);
