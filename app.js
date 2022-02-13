@@ -17,6 +17,7 @@ const ratings = require('./routes/ratings.routes');
 const publications = require('./routes/publications.routes');
 const comments = require('./routes/commentsPublications.routes');
 const customerTicket = require('./routes/customerTicket.routes');
+const reactions = require('./routes/reactionsPublications.routes');
 
 //middlewares
 app.use(cors());
@@ -30,6 +31,7 @@ app.use('/ratings', ratings);
 app.use('/publications', publications);
 app.use('/comments', comments);
 app.use('/customerTicket', customerTicket);
+app.use('/reactions', reactions);
 
 //servidor
 app.listen(process.env.PORT || 5000,  () => {
