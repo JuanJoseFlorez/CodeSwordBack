@@ -15,8 +15,14 @@ router.delete('/deleteUser', middlewareLogin.middleLoginAdmin, userController.de
 //Ruta para loguearse
 router.post('/login', userController.loginUser);
 
-//Ruta para validar el token de X usuario
+//Ruta para validar el token de X usuario o administrador
 router.get('/validateToken', userController.validateToken);
+
+//Ruta para traer una lista de todos los usuarios
+router.get('/getUsers', middlewareLogin.middleLoginAdmin, userController.getUsers);
+
+//Ruta para traer un usuario
+router.get('/getUser/:id', middlewareLogin.middleLoginAdmin, userController.getUser);
 
 //Exportar rutas a la App
 module.exports = router;

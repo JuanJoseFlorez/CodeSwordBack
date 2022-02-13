@@ -12,7 +12,7 @@ const userCollention = mongose.model("user",{
     password: String,
     phoneNumber: String,
     gender: String,
-    birthDate: Date,
+    birthDate: String,
     country: String
 })
 
@@ -25,13 +25,6 @@ const createUser = async (req, res) => {
 
         const encrypted_password = bcrypt.hashSync(password, 10);
 
-        const day = birthDate.substring(0,2);
-        const month = birthDate.substring(3,5);
-        const year = birthDate.substring(6,10);
-
-        const date = new Date(year, (month-1), day, 0, 0);
-
-
         let result_user = {
             profileImage: profileImage,
             user: user,
@@ -41,7 +34,7 @@ const createUser = async (req, res) => {
             password: encrypted_password,
             phoneNumber: phoneNumber,
             gender: gender,
-            birthDate: date,
+            birthDate: birthDate,
             country: country,
         }
 
@@ -64,16 +57,10 @@ const updateUser = async (req, res) => {
         return res.status(400).json({ message: "Datos requeridos"})
     } else {
 
-        const seatchResult = await userCollention.findOne({ _id: id });
-        if(seatchResult === null) return res.status(404).json({ message: "El usuario no existe"});
+        const searchResult = await userCollention.findOne({ _id: id });
+        if(searchResult === null) return res.status(404).json({ message: "El usuario no existe"});
 
-        const encrypted_password = bcrypt.hashSync(password, 10);
-
-        const day = birthDate.substring(0,2);
-        const month = birthDate.substring(3,5);
-        const year = birthDate.substring(6,10);
-
-        const date = new Date(year, (month-1), day, 0, 0);
+        const encrypted_password = password != searchResult.password ? bcrypt.hashSync(password, 10) : password;
 
         const filter = { _id: id }
 
@@ -87,7 +74,7 @@ const updateUser = async (req, res) => {
                 password: encrypted_password,
                 phoneNumber: phoneNumber,
                 gender: gender,
-                birthDate: date,
+                birthDate: birthDate,
                 country: country,
             },
         }
@@ -185,8 +172,41 @@ const validateToken = async (req, res) => {
     })
 }
 
+const getUsers = async (req, res) =>{
+    try {
+        const response = await userCollention.find({ typeUser: 1 });
+        res.status(200).json({msq: "Usuarios obtenidos con exito", resultado: response})
+    } catch (e) {
+        console.log(e)
+        res.status(400).json({ msq : "Ocurrio un error al obtener los Usuarios" ,  resultado  : e})
+    }
+}
+
+const getUser = async (req, res) =>{
+
+    const { id } = req.params;
+
+    if(!id){
+        return res.status(400).json({ message: "El ID es requerido"})
+    } else {
+        try {
+            const response = await userCollention.findOne({ typeUser: 1, _id: id });
+            if(response === null) return res.status(404).json({ message: "El usuario no existe"});
+
+            res.status(200).json({msq: "Usuario obtenido con exito", resultado: response})
+
+        } catch (e) {
+            console.log(e);
+            res.status(400).json({ msq : "Ocurrio un error al obtener el usuario" ,  resultado  : e})
+        }
+    }
+}
+
 exports.createUser = createUser
 exports.updateUser = updateUser
 exports.deleteUser = deleteUser
 exports.loginUser = loginUser
 exports.validateToken = validateToken
+exports.getUsers = getUsers
+exports.getUser = getUser
+
