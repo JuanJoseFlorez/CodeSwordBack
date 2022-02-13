@@ -23,6 +23,9 @@ const createUser = async (req, res) => {
         return res.status(400).json({ message: "Datos requeridos"})
     } else {
 
+        const searchEmail = await userCollention.findOne({ email: email });
+        if(searchEmail != null) return res.status(400).json({ message: `Ya existe un usuario con el correo: ${email}`});
+
         const encrypted_password = bcrypt.hashSync(password, 10);
 
         let result_user = {
@@ -58,7 +61,10 @@ const updateUser = async (req, res) => {
     } else {
 
         const searchResult = await userCollention.findOne({ _id: id });
+        const searchEmail = await userCollention.findOne({ email: email });
+
         if(searchResult === null) return res.status(404).json({ message: "El usuario no existe"});
+        if(searchEmail != null && searchResult.email != email) return res.status(400).json({ message: `Ya existe un usuario con el correo: ${email}`});
 
         const encrypted_password = password != searchResult.password ? bcrypt.hashSync(password, 10) : password;
 
