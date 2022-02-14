@@ -131,6 +131,7 @@ const loginUser = async (req, res) => {
         } else {
     
             const payload = { 
+                id: result.id,
                 profileImage: result.profileImage,
                 user: result.user,
                 typeUser: result.typeUser,
