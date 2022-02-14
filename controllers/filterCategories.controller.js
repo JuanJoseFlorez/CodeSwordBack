@@ -17,6 +17,9 @@ const createCategory = async (req, res) => {
         return res.status(400).json({ message: "Datos requeridos"})
     } else {
 
+        const searchResult = await filterCategories.findOne({ name: name });
+        if(searchResult != null) return res.status(400).json({ message: "La categoria ya existe"});
+
         const creationDate = new Date();
 
         let result_category = {
@@ -121,6 +124,10 @@ const getCategory = async (req, res) =>{
         }
     }
 }
+
+const removeAccents = (str) => {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+} 
 
 exports.createCategory = createCategory
 exports.updateCategory = updateCategory
