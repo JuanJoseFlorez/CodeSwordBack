@@ -63,7 +63,7 @@ const updateUser = async (req, res) => {
         const searchResult = await userCollention.findOne({ _id: id });
         const searchEmail = await userCollention.findOne({ email: email });
 
-        if(searchResult === null) return res.status(405).json({ message: "El usuario no existe"});
+        if(searchResult === null) return res.status(404).json({ message: "El usuario no existe"});
         if(searchEmail != null && searchResult.email != email) return res.status(400).json({ message: `Ya existe un usuario con el correo: ${email}`});
 
         const encrypted_password = password != searchResult.password ? bcrypt.hashSync(password, 10) : password;
@@ -85,9 +85,29 @@ const updateUser = async (req, res) => {
             },
         }
 
+        const payload = { 
+            id: searchResult.id,
+            profileImage: profileImage,
+            user: user,
+            typeUser: typeUser,
+            name: name,
+            email: email,
+            password: encrypted_password,
+            phoneNumber: phoneNumber,
+            gender: gender,
+            birthDate: birthDate,
+            country: country
+        };
+
+
+        const jwtToken = jwt.sign(payload, process.env.LLAVE,{
+            expiresIn: '24h'
+        })
+
+
         try{
             const result = await userCollention.updateOne(filter, result_user)
-            res.status(200).json({ message: "Usuario actualizado con éxito", result: result})
+            res.status(200).json({ message: "Usuario actualizado con éxito", token: jwtToken})
         }catch(error){ 
             res.status(500).json({ mesaage: "Ocurrio un error", error: error})
             console.error(`Ocurrio un error: ${error}`);
