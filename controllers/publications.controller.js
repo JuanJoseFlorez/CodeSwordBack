@@ -8,13 +8,15 @@ const publications = mongose.model("publications",{
     idCategory: String,
     idLabels: Array,
     description: String,
-    idUser: String
+    idUser: String,
+    bannerImage: String,
+    publishedAt: String
 })
 
 const createPublication = async (req, res) => {
-    const { name, idCategory, idLabels, description, idUser } = req.body;
+    const { name, idCategory, idLabels, description, idUser, bannerImage, publishedAt } = req.body;
 
-    if(!name || !idCategory || !idLabels || !description || !idUser) {
+    if(!name || !idCategory || !idLabels || !description || !idUser || !bannerImage || !publishedAt) {
         return res.status(400).json({ message: "Datos requeridos"})
     } else {
 
@@ -23,7 +25,9 @@ const createPublication = async (req, res) => {
             idCategory: idCategory,
             idLabels: idLabels,
             description: description,
-            idUser: idUser
+            idUser: idUser,
+            bannerImage: bannerImage,
+            publishedAt: publishedAt
         }
 
         try{
@@ -40,9 +44,9 @@ const createPublication = async (req, res) => {
 
 const updatePublication = async (req, res) => {
 
-    const { id, name, idCategory, idLabels, description } = req.body;
+    const { id, name, idCategory, idLabels, description, bannerImage, publishedAt } = req.body;
 
-    if(!id || !name || !idCategory || !idLabels || !description){
+    if(!id || !name || !idCategory || !idLabels || !description || !bannerImage || !publishedAt){
         return res.status(400).json({ message: "Datos requeridos"})
     } else {
 
@@ -57,6 +61,8 @@ const updatePublication = async (req, res) => {
                 idCategory: idCategory,
                 idLabels: idLabels,
                 description: description,
+                bannerImage: bannerImage,
+                publishedAt: publishedAt
             },
         }
 
