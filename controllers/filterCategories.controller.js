@@ -17,8 +17,8 @@ const createCategory = async (req, res) => {
         return res.status(400).json({ message: "Datos requeridos"})
     } else {
 
-        //const searchResult = await filterCategories.findOne({ name: name });
-        //if(searchResult != null) return res.status(400).json({ message: "La categoria ya existe"});
+        const searchResult = await filterCategories.findOne({ name: name });
+        if(searchResult != null) return res.status(400).json({ message: "La categoria ya existe"});
 
         const creationDate = new Date();
 
@@ -77,14 +77,14 @@ const deleteCategory = async (req, res) =>{
     const { id } = req.body;
 
     if(!id){
-        return res.status(400).json({ message: "El ID es requerido"})
+        return res.status(401).json({ message: "El ID es requerido"})
     } else {
 
         const searchResult = await filterCategories.findOne({ _id: id });
         if(searchResult === null) return res.status(404).json({ message: "La categoria no existe"});
 
         try{
-            const result = await filterCategories.deleteOne({ _id: id });
+            const result = await filterCategories.findByIdAndDelete( id );
             res.status(200).json({ message: "Categoria eliminada con éxito"});
 
         }catch(error){
@@ -124,10 +124,6 @@ const getCategory = async (req, res) =>{
         }
     }
 }
-
-const removeAccents = (str) => {
-    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-} 
 
 exports.createCategory = createCategory
 exports.updateCategory = updateCategory
