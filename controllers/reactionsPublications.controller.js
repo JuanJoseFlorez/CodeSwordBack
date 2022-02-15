@@ -76,7 +76,7 @@ const deleteReaction = async (req, res) =>{
         if(searchResult === null) return res.status(404).json({ message: "La reacción no existe"});
 
         try{
-            const result = await reactions.deleteOne({ _id: id });
+            const result = await reactions.findByIdAndDelete( id );
             res.status(200).json({ message: "Reacción eliminada con éxito"});
 
         }catch(error){

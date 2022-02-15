@@ -87,7 +87,7 @@ const deleteGame = async (req, res) =>{
         if(searchResult === null) return res.status(404).json({ message: "El juego no existe"});
 
         try{
-            const result = await games.deleteOne({ _id: id });
+            const result = await games.findByIdAndDelete( id );
             res.status(200).json({ message: "Juego eliminado con éxito"});
 
         }catch(error){

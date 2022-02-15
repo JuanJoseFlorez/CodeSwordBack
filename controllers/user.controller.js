@@ -127,7 +127,7 @@ const deleteUser = async (req, res) =>{
         if(seatchResult === null) return res.status(404).json({ message: "El usuario no existe"});
 
         try{
-            const result = await userCollention.deleteOne({ _id: id });
+            const result = await userCollention.findByIdAndDelete( id );
             res.status(200).json({ message: "Usuario eliminado con exito"});
 
         }catch(error){

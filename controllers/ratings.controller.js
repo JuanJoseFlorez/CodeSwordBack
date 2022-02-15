@@ -74,7 +74,7 @@ const deleteRating = async (req, res) =>{
         if(searchResult === null) return res.status(404).json({ message: "La calificación no existe"});
 
         try{
-            const result = await ratings.deleteOne({ _id: id });
+            const result = await ratings.findByIdAndDelete( id );
             res.status(200).json({ message: "Calificación eliminada con éxito"});
 
         }catch(error){

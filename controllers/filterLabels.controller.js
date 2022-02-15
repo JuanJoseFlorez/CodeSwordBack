@@ -84,7 +84,7 @@ const deleteLabel = async (req, res) =>{
         if(searchResult === null) return res.status(404).json({ message: "La etiqueta no existe"});
 
         try{
-            const result = await filterLabels.deleteOne({ _id: id });
+            const result = await filterLabels.findByIdAndDelete( id );
             res.status(200).json({ message: "Etiqueta eliminada con éxito"});
 
         }catch(error){

@@ -89,7 +89,7 @@ const deletePublication = async (req, res) =>{
         if(searchResult === null) return res.status(404).json({ message: "La publicación no existe"});
 
         try{
-            const result = await publications.deleteOne({ _id: id });
+            const result = await publications.findByIdAndDelete( id );
             res.status(200).json({ message: "Publicación eliminada con éxito"});
 
         }catch(error){

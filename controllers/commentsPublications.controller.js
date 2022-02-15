@@ -76,7 +76,7 @@ const deleteComment = async (req, res) =>{
         if(searchResult === null) return res.status(404).json({ message: "El comentario no existe"});
 
         try{
-            const result = await comments.deleteOne({ _id: id });
+            const result = await comments.findByIdAndDelete( id );
             res.status(200).json({ message: "Comentario eliminado con éxito"});
 
         }catch(error){
