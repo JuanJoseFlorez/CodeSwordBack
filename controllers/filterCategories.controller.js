@@ -17,8 +17,8 @@ const createCategory = async (req, res) => {
         return res.status(400).json({ message: "Datos requeridos"})
     } else {
 
-        const searchResult = await filterCategories.findOne({ name: name });
-        if(searchResult != null) return res.status(400).json({ message: "La categoria ya existe"});
+        //const searchResult = await filterCategories.findOne({ name: name });
+        //if(searchResult != null) return res.status(400).json({ message: "La categoria ya existe"});
 
         const creationDate = new Date();
 
