@@ -18,6 +18,9 @@ const createLabel = async (req, res) => {
         return res.status(400).json({ message: "Datos requeridos"})
     } else {
 
+        const searchResult = await filterLabels.findOne({ name: name });
+        if(searchResult != null) return res.status(400).json({ message: "La etiqueta ya existe"});
+
         const creationDate = new Date();
 
         let result_label = {
