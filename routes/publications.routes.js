@@ -13,10 +13,10 @@ router.put('/updatePublication', middlewareLogin.middleLoginAdmin, publicationsC
 router.delete('/deletePublication', middlewareLogin.middleLoginAdmin, publicationsController.deletePublication);
 
 //Ruta para traer una lista de todas las Publicaciones
-router.get('/getPublications', middlewareLogin.middleLoginAdmin, publicationsController.getPublications);
+router.get('/getPublications', publicationsController.getPublications);
 
 //Ruta para traer una Publicación
-router.get('/getPublication/:id', middlewareLogin.middleLoginAdmin, publicationsController.getPublication);
+router.get('/getPublication/:id', publicationsController.getPublication);
  
 //Exportar rutas a la App
 module.exports = router;
