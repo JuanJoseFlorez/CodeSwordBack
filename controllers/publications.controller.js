@@ -138,7 +138,7 @@ const getPublicationOfCategory = async (req, res) =>{
         return res.status(400).json({ message: "El ID es requerido"})
     } else {
         try {
-            const response = await publications.findOne({ idCategory: id });
+            const response = await publications.find({ idCategory: id });
             if(response === null) return res.status(404).json({ message: "No existen publicaciones con esta categoria"});
 
             res.status(200).json({msq: "Publicación obtenida con éxito", resultado: response})
