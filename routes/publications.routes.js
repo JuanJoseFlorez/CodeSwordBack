@@ -17,6 +17,9 @@ router.get('/getPublications', publicationsController.getPublications);
 
 //Ruta para traer una Publicación
 router.get('/getPublication/:id', publicationsController.getPublication);
+
+//Ruta para traer una Publicación de acuerdo a una categoria
+router.get('/getPublicationOfCategory/:id', publicationsController.getPublicationOfCategory);
  
 //Exportar rutas a la App
 module.exports = router;

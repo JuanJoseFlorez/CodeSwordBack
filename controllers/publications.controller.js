@@ -130,8 +130,29 @@ const getPublication = async (req, res) =>{
     }
 }
 
+const getPublicationOfCategory = async (req, res) =>{
+
+    const { id } = req.params;
+
+    if(!id){
+        return res.status(400).json({ message: "El ID es requerido"})
+    } else {
+        try {
+            const response = await publications.findOne({ idCategory: id });
+            if(response === null) return res.status(404).json({ message: "No existen publicaciones con esta categoria"});
+
+            res.status(200).json({msq: "Publicación obtenida con éxito", resultado: response})
+
+        } catch (e) {
+            console.log(e);
+            res.status(400).json({ msq : "Ocurrio un error al obtener una Publicación" ,  resultado  : e})
+        }
+    }
+}
+
 exports.createPublication = createPublication
 exports.updatePublication = updatePublication
 exports.deletePublication = deletePublication
 exports.getPublications = getPublications
 exports.getPublication = getPublication
+exports.getPublicationOfCategory = getPublicationOfCategory
