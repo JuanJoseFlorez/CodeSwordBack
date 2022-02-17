@@ -16,7 +16,7 @@ router.delete('/deleteLabel', middlewareLogin.middleLoginAdmin, filterLabelsCont
 router.get('/getLabels', middlewareLogin.middleLoginAdmin, filterLabelsController.getLabels);
 
 //Ruta para traer una Etiqueta
-router.get('/getLabel/:id', middlewareLogin.middleLoginAdmin, filterLabelsController.getLabel);
+router.get('/getLabel/:id', filterLabelsController.getLabel);
 
 //Exportar rutas a la App
 module.exports = router;

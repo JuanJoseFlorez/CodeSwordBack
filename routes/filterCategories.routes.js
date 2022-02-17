@@ -16,7 +16,7 @@ router.delete('/deleteCategory', middlewareLogin.middleLoginAdmin, filterCategor
 router.get('/getCategories', middlewareLogin.middleLoginAdmin, filterCategoriesController.getCategories);
 
 //Ruta para traer una Categoria
-router.get('/getCategory/:id', middlewareLogin.middleLoginAdmin, filterCategoriesController.getCategory);
+router.get('/getCategory/:id', filterCategoriesController.getCategory);
 
 //Exportar rutas a la App
 module.exports = router;
