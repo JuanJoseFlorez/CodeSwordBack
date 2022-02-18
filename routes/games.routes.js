@@ -13,7 +13,7 @@ router.put('/updateGame', middlewareLogin.middleLoginAdmin, gamesController.upda
 router.delete('/deleteGame', middlewareLogin.middleLoginAdmin, gamesController.deleteGame);
 
 //Ruta para traer una lista de todos los Juegos
-router.get('/getGames', middlewareLogin.middleLoginAdmin, gamesController.getGames);
+router.get('/getGames', gamesController.getGames);
 
 //Ruta para traer un Juego
 router.get('/getGame/:id', middlewareLogin.middleLoginAdmin, gamesController.getGame);
