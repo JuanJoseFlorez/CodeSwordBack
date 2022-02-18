@@ -5,18 +5,20 @@ const jwt = require('jsonwebtoken');
 
 const ratings = mongose.model("ratings",{
     idUser: String,
+    idGame: String,
     estrellas: Number
 })
 
 const createRating = async (req, res) => {
-    const { idUser, estrellas } = req.body;
+    const { idUser, idGame, estrellas } = req.body;
 
-    if(!idUser || !estrellas) {
+    if(!idUser || !idGame || !estrellas) {
         return res.status(400).json({ message: "Datos requeridos"})
     } else {
 
         let result_rating = {
             idUser: idUser,
+            idGame: idGame,
             estrellas: estrellas
         }
 
@@ -114,6 +116,8 @@ const getRating = async (req, res) =>{
         }
     }
 }
+
+
 
 exports.createRating = createRating
 exports.updateRating = updateRating

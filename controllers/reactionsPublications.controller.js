@@ -127,13 +127,15 @@ const getReaction = async (req, res) =>{
 
 const getReactionByUser = async (req, res) =>{
 
-    const { idUser, idPublication } = req.body;
+    const { idPublication } = req.body;
+    //const { pruebass } = res.locals;
 
-    if(!idUser || !idPublication){
+    if(!idPublication){
         return res.status(400).json({ message: "El ID es requerido"})
     } else {
         try {
-            const response = await reactions.findOne({ idUser: idUser, idPublication: idPublication});
+        
+            const response = await reactions.findOne({ idUser: req.idUser, idPublication: idPublication});
             if(response === null) return res.status(404).json({ message: "El usuario no ha reaccionado"});
 
             res.status(200).json({msq: "Reacción obtenida con éxito", resultado: response})

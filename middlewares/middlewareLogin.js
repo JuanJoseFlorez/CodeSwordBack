@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 //Midleware para validar Token del usuario
 const middleLogin = (req, res, next) => {
     const jwtToken = req.headers["authorization"];
+
     // bearer mitoken
     if (!jwtToken) {
         return res.status(401).json({ message: "No Autorizado" });
@@ -13,7 +14,11 @@ const middleLogin = (req, res, next) => {
         if (error) {
             return res.status(401).json({ message: "Su token a expirado" });
         }
+
+        const idUser = JSON.stringify(decoded.id);
        
+        req.idUser = idUser;
+
         next();
     });
 };
