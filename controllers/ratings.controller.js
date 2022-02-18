@@ -117,6 +117,26 @@ const getRating = async (req, res) =>{
     }
 }
 
+const getRatingById = async (req, res) =>{
+
+    const { idUser, idGame } = req.body;
+
+    if(!idUser || !idGame){
+        return res.status(400).json({ message: "El ID es requerido"})
+    } else {
+        try {
+            const response = await ratings.findOne({ idUser: idUser, idGame: idGame });
+            if(response === null) return res.status(404).json({ message: "La calificación no existe"});
+
+            res.status(200).json({msq: "Calificación obtenida con éxito", resultado: response})
+
+        } catch (e) {
+            console.log(e);
+            res.status(400).json({ msq : "Ocurrio un error al obtener la Calificación" ,  resultado  : e})
+        }
+    }
+}
+
 
 
 exports.createRating = createRating
@@ -124,3 +144,4 @@ exports.updateRating = updateRating
 exports.deleteRating = deleteRating
 exports.getRatings = getRatings
 exports.getRating = getRating
+exports.getRatingById = getRatingById
