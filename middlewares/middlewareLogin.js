@@ -17,7 +17,7 @@ const middleLogin = (req, res, next) => {
 
         const idUser = JSON.stringify(decoded.id);
        
-        req.idUser = idUser;
+        req.hola = idUser;
 
         next();
     });
