@@ -150,9 +150,34 @@ const getPublicationOfCategory = async (req, res) =>{
     }
 }
 
+const getPublicationOfLabels = async (req, res) =>{
+
+    const { ids } = req.body;
+
+    if(!ids){
+        return res.status(400).json({ message: "Los ID's son requeridos"})
+    } else {
+        try {
+
+            let response;
+
+            for (let i = 0; i < ids.length; i++) {
+                response += await publications.find({ idLabels: ids[i] });
+            }
+            
+            res.status(200).json({msq: "Publicaciones obtenidas con éxito", resultado: response})
+            
+        } catch (e) {
+            console.log(e);
+            res.status(400).json({ msq : "Ocurrio un error al obtener una Publicación" ,  resultado  : e})
+        }
+    }
+}
+
 exports.createPublication = createPublication
 exports.updatePublication = updatePublication
 exports.deletePublication = deletePublication
 exports.getPublications = getPublications
 exports.getPublication = getPublication
 exports.getPublicationOfCategory = getPublicationOfCategory
+exports.getPublicationOfLabels = getPublicationOfLabels

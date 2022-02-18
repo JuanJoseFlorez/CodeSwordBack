@@ -89,7 +89,7 @@ const deleteComment = async (req, res) =>{
 
 const getComments = async (req, res) =>{
 
-    const { idPublication } = req.body;
+    const { idPublication } = req.params;
 
     if(!idPublication){
         return res.status(400).json({ message: "El ID de la publicación es requerido"})

@@ -17,6 +17,9 @@ router.get('/getReactions', reactionsPublicationsController.getReactions);
 
 //Ruta para traer una Reacción
 router.get('/getReaction/:id', middlewareLogin.middleLogin, reactionsPublicationsController.getReaction);
+
+//Ruta para traer una Reacción
+router.post('/getReactionByUser', reactionsPublicationsController.getReactionByUser);
  
 //Exportar rutas a la App
 module.exports = router;

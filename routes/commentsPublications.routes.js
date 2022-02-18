@@ -13,7 +13,7 @@ router.put('/updateComment', middlewareLogin.middleLoginAdmin, commentsPublicati
 router.delete('/deleteComment', middlewareLogin.middleLogin, commentsPublicationsController.deleteComment);
 
 //Ruta para traer una lista de Comentarios de Publicación X
-router.get('/getComments', commentsPublicationsController.getComments);
+router.get('/getComments/:idPublication', commentsPublicationsController.getComments);
 
 //Ruta para traer una Publicación
 router.get('/getComment/:id', middlewareLogin.middleLogin, commentsPublicationsController.getComment);
