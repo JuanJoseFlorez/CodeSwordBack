@@ -164,8 +164,13 @@ const getPublicationOfLabels = async (req, res) =>{
 
             for (let i = 0; i < ids.length; i++) {
                 response = await publications.find({ idLabels: ids[i] });
-                console.log(response);
-                if (response.length > 0) array.push(response);
+                //console.log(response);
+
+                if (response.length > 0){
+                    if(!array.includes(response)){
+                        array.push(response);
+                    }
+                } 
             }
             
             res.status(200).json({msq: "Publicaciones obtenidas con éxito", resultado: array})
