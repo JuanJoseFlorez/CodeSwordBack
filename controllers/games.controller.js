@@ -14,7 +14,7 @@ const games = mongose.model("games",{
 const createGame = async (req, res) => {
     const { image, name, description, author, idLabels } = req.body;
 
-    if(!image || !name || !description || !author || !idLabels || !calificacion) {
+    if(!image || !name || !description || !author || !idLabels) {
         return res.status(400).json({ message: "Datos requeridos"})
     } else {
 
