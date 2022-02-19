@@ -22,7 +22,7 @@ router.get('/validateToken', userController.validateToken);
 router.get('/getUsers', middlewareLogin.middleLoginAdmin, userController.getUsers);
 
 //Ruta para traer un usuario
-router.get('/getUser/:id', middlewareLogin.middleLoginAdmin, userController.getUser);
+router.get('/getUser/:id', userController.getUser);
 
 //Exportar rutas a la App
 module.exports = router;
