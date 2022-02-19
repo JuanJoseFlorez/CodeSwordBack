@@ -13,7 +13,7 @@ router.put('/updateCategory', middlewareLogin.middleLoginAdmin, filterCategories
 router.delete('/deleteCategory', middlewareLogin.middleLoginAdmin, filterCategoriesController.deleteCategory);
 
 //Ruta para traer una lista de todas las Categorias
-router.get('/getCategories', middlewareLogin.middleLoginAdmin, filterCategoriesController.getCategories);
+router.get('/getCategories', filterCategoriesController.getCategories);
 
 //Ruta para traer una Categoria
 router.get('/getCategory/:id', filterCategoriesController.getCategory);
