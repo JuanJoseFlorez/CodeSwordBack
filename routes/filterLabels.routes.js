@@ -13,7 +13,7 @@ router.put('/updateLabel', middlewareLogin.middleLoginAdmin, filterLabelsControl
 router.delete('/deleteLabel', middlewareLogin.middleLoginAdmin, filterLabelsController.deleteLabel);
 
 //Ruta para traer una lista de todas las Etiquestas
-router.get('/getLabels', middlewareLogin.middleLoginAdmin, filterLabelsController.getLabels);
+router.get('/getLabels', filterLabelsController.getLabels);
 
 //Ruta para traer una Etiqueta
 router.get('/getLabel/:id', filterLabelsController.getLabel);
