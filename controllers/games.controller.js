@@ -8,12 +8,11 @@ const games = mongose.model("games",{
     name: String,
     description: String,
     author: String,
-    idLabels: Array,
-    calificacion: Number
+    idLabels: Array
 })
 
 const createGame = async (req, res) => {
-    const { image, name, description, author, idLabels, calificacion } = req.body;
+    const { image, name, description, author, idLabels } = req.body;
 
     if(!image || !name || !description || !author || !idLabels || !calificacion) {
         return res.status(400).json({ message: "Datos requeridos"})
@@ -24,8 +23,7 @@ const createGame = async (req, res) => {
             name: name,
             description: description,
             author: author,
-            idLabels: idLabels,
-            calificacion: calificacion
+            idLabels: idLabels
         }
 
         try{
@@ -42,9 +40,9 @@ const createGame = async (req, res) => {
 
 const updateGame = async (req, res) => {
 
-    const { id, image, name, description, author, idLabels, calificacion } = req.body;
+    const { id, image, name, description, author, idLabels } = req.body;
 
-    if(!id || !image || !name || !description || !author || !idLabels || !calificacion){
+    if(!id || !image || !name || !description || !author || !idLabels){
         return res.status(400).json({ message: "Datos requeridos"})
     } else {
 
@@ -59,8 +57,7 @@ const updateGame = async (req, res) => {
                 name: name,
                 description: description,
                 author: author,
-                idLabels: idLabels,
-                calificacion: calificacion
+                idLabels: idLabels
             },
         }
 
