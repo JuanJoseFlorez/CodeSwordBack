@@ -13,7 +13,7 @@ router.put('/updateReaction', middlewareLogin.middleLogin, reactionsPublications
 router.delete('/deleteReaction', middlewareLogin.middleLogin, reactionsPublicationsController.deleteReaction);
 
 //Ruta para traer una lista de Reacciones de Publicación X
-router.get('/getReactions', reactionsPublicationsController.getReactions);
+router.get('/getReactions/:idPublication', reactionsPublicationsController.getReactions);
 
 //Ruta para traer una Reacción
 router.get('/getReaction/:id', middlewareLogin.middleLogin, reactionsPublicationsController.getReaction);

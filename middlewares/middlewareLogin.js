@@ -15,10 +15,6 @@ const middleLogin = (req, res, next) => {
             return res.status(401).json({ message: "Su token a expirado" });
         }
 
-        const idUser = JSON.stringify(decoded.id);
-       
-        req.hola = idUser;
-
         next();
     });
 };
