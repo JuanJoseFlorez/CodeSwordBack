@@ -182,6 +182,7 @@ const getPublicationOfLabels = async (req, res) =>{
     }
 }
 
+exports.publications = publications
 exports.createPublication = createPublication
 exports.updatePublication = updatePublication
 exports.deletePublication = deletePublication

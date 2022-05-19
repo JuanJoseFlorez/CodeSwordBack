@@ -2,11 +2,18 @@ const mongose = require('../conexion');
 const bcrypt = require('bcrypt');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
+const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
+
+const endpoint = process.env.ENDPOINT
+const apiKey = process.env.KEY_ENDPOINT 
 
 const comments = mongose.model("comments_publications",{
     content: String,
     idUser: String,
-    idPublication: String
+    idPublication: String,
+    qualificationPositive: Number,
+    qualificationNeutral: Number,
+    qualificationNegative: Number
 })
 
 const createComment = async (req, res) => {
@@ -16,13 +23,26 @@ const createComment = async (req, res) => {
         return res.status(400).json({ message: "Datos requeridos"})
     } else {
 
-        let result_comment = {
-            content: content,
-            idUser: idUser,
-            idPublication: idPublication
-        }
+        const commentPublication = [{
+            text: content,
+            id: "0",
+            language: "es"
+        }]
 
         try{
+
+            const client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(apiKey));
+            const resultEmotion = await client.analyzeSentiment(commentPublication, { includeOpinionMining: true });
+
+            let result_comment = {
+                content: content,
+                idUser: idUser,
+                idPublication: idPublication,
+                qualificationPositive: resultEmotion[0].confidenceScores.positive,
+                qualificationNeutral: resultEmotion[0].confidenceScores.neutral,
+                qualificationNegative: resultEmotion[0].confidenceScores.negative
+            }
+
             const result = new comments(result_comment);
             const response = await result.save();
 
@@ -125,6 +145,7 @@ const getComment = async (req, res) =>{
     }
 }
 
+exports.comments = comments
 exports.createComment = createComment
 exports.updateComment = updateComment
 exports.deleteComment = deleteComment
