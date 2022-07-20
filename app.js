@@ -21,6 +21,7 @@ const reactions = require('./routes/reactionsPublications.routes');
 const analysisOfData = require('./routes/analysisOfData.routes');
 const historyPublications = require('./routes/historyPublications.routes');
 const favoriteGames = require('./routes/favoriteGames.routes');
+const commentsTickets = require('./routes/commentsTickets.routes');
 
 //middlewares
 app.use(cors());
@@ -38,6 +39,7 @@ app.use('/reactions', reactions);
 app.use('/analysisOfData', analysisOfData);
 app.use('/historyPublications', historyPublications);
 app.use('/favoriteGames', favoriteGames);
+app.use('/commentsTickets', commentsTickets);
 
 //servidor
 app.listen(process.env.PORT || 5000,  () => {
