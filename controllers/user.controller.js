@@ -144,6 +144,8 @@ const loginUser = async (req, res) => {
         const { email, password } = req.body;
         const result = await userCollention.findOne({ email: email});
 
+        if(result === null) res.status(401).json({ message: "Usuario o contraseña invalida"})
+
         const validacion = bcrypt.compareSync(password, result.password);
 
         if(!validacion){
