@@ -6,24 +6,24 @@ const jwt = require('jsonwebtoken');
 const customerTicket = mongose.model("customer_ticket",{
     title: String,
     description: String,
-    images: Array,
-    files: Array,
+    activo: Boolean,
+    estado: String,
     idUser: String,
     idGame: String
 })
 
 const createTicket = async (req, res) => {
-    const { title, description, images, files, idUser, idGame } = req.body;
+    const { title, description, estado, idUser, idGame } = req.body;
 
-    if(!title || !description || !images || !files || !idUser || !idGame) {
+    if(!title || !description || !estado || !idUser || !idGame) {
         return res.status(400).json({ message: "Datos requeridos"})
     } else {
 
         let result_Ticket = {
             title: title,
             description: description,
-            images: images,
-            files: files,
+            activo: true,
+            estado: estado,
             idUser: idUser,
             idGame: idGame
         }
@@ -33,6 +33,36 @@ const createTicket = async (req, res) => {
             const response = await result.save();
 
             res.status(200).json({ message: "Ticket creado con éxito", Ticket: response})
+        }catch(error){ 
+            res.status(500).json({ mesaage: "Ocurrio un error", error: error})
+            console.error(`Ocurrio un error: ${error}`);
+        }
+    }
+}
+
+const desactivateTicket = async (req, res) => {
+
+    const { id } = req.body;
+
+    if(!id){
+        return res.status(400).json({ message: "El ID es requerido"})
+    } else {
+
+        const searchResult = await customerTicket.findOne({ _id: id });
+        if(searchResult === null) return res.status(404).json({ message: "El Ticket no existe"});
+
+        const filter = { _id: id }
+
+        let result_Ticket = {
+            $set:{
+                activo: false
+            },
+        }
+
+        try{
+            const result = await customerTicket.updateOne(filter, result_Ticket);
+
+            res.status(200).json({ message: "Ticket desactivado con éxito", result: result});
         }catch(error){ 
             res.status(500).json({ mesaage: "Ocurrio un error", error: error})
             console.error(`Ocurrio un error: ${error}`);
@@ -52,16 +82,16 @@ const getTickets = async (req, res) =>{
 
 const getTicket = async (req, res) =>{
 
-    const { id } = req.params;
+    const { idUser } = req.params;
 
-    if(!id){
-        return res.status(400).json({ message: "El ID es requerido"})
+    if(!idUser){
+        return res.status(400).json({ message: "El ID del usuario es requerido"})
     } else {
         try {
-            const response = await customerTicket.findOne({ _id: id });
-            if(response === null) return res.status(404).json({ message: "El ticket no existe"});
+            const response = await customerTicket.find({ idUser: idUser });
+            if(response === null) return res.status(404).json({ message: "El usuario no tiene tickets"});
 
-            res.status(200).json({msq: "Ticket obtenido con éxito", resultado: response})
+            res.status(200).json({msq: "Tickets obtenidos con éxito", resultado: response})
 
         } catch (e) {
             console.log(e);
@@ -71,5 +101,6 @@ const getTicket = async (req, res) =>{
 }
 
 exports.createTicket = createTicket
+exports.desactivateTicket = desactivateTicket
 exports.getTickets = getTickets
 exports.getTicket = getTicket
