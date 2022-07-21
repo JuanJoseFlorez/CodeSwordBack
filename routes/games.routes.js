@@ -17,6 +17,10 @@ router.get('/getGames', gamesController.getGames);
 
 //Ruta para traer un Juego
 router.get('/getGame/:id', middlewareLogin.middleLoginAdmin, gamesController.getGame);
+
+//Ruta para traer un juego sin ser admin
+router.get('/getGameWithoutAdmin/:id', middlewareLogin.middleLogin, gamesController.getGameWithoutAdmin);
+
  
 //Exportar rutas a la App
 module.exports = router;

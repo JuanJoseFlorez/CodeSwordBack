@@ -125,8 +125,29 @@ const getGame = async (req, res) =>{
     }
 }
 
+const getGameWithoutAdmin = async (req, res) =>{
+
+    const { id } = req.params;
+
+    if(!id){
+        return res.status(400).json({ message: "El ID es requerido"})
+    } else {
+        try {
+            const response = await games.findOne({ _id: id });
+            if(response === null) return res.status(404).json({ message: "El juego no existe"});
+
+            res.status(200).json({msq: "Juego obtenido con éxito", resultado: response})
+
+        } catch (e) {
+            console.log(e);
+            res.status(400).json({ msq : "Ocurrio un error al obtener el Juego" ,  resultado  : e})
+        }
+    }
+}
+
 exports.createGame = createGame
 exports.updateGame = updateGame
 exports.deleteGame = deleteGame
 exports.getGames = getGames
 exports.getGame = getGame
+exports.getGameWithoutAdmin = getGameWithoutAdmin
