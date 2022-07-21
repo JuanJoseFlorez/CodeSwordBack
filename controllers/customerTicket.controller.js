@@ -99,8 +99,28 @@ const getTicket = async (req, res) =>{
         }
     }
 }
+const getTicketByTicketId = async (req, res) =>{
+
+    const { id } = req.params;
+
+    if(!id){
+        return res.status(400).json({ message: "El ID del ticket es requerido"})
+    } else {
+        try {
+            const response = await customerTicket.findOne({ _id: id });
+            if(response === null) return res.status(404).json({ message: "El ticket no existe"});
+
+            res.status(200).json({msq: "Ticket obtenido con éxito", resultado: response})
+
+        } catch (e) {
+            console.log(e);
+            res.status(400).json({ msq : "Ocurrio un error al obtener el Ticket" ,  resultado  : e})
+        }
+    }
+}
 
 exports.createTicket = createTicket
 exports.desactivateTicket = desactivateTicket
 exports.getTickets = getTickets
 exports.getTicket = getTicket
+exports.getTicketByTicketId = getTicketByTicketId
