@@ -43,11 +43,11 @@ const deleteFavoriteGame = async (req, res) =>{
         return res.status(400).json({ message: "El ID es requerido"})
     } else {
 
-        const searchResult = await favoriteGames.findOne({ _id: id });
+        const searchResult = await favoriteGames.findOne({ idGame: id });
         if(searchResult === null) return res.status(404).json({ message: "El juego favorito no existe"});
 
         try{
-            const result = await favoriteGames.findByIdAndDelete( id );
+            const result = await favoriteGames.findOneAndDelete({ idGame: id });
             res.status(200).json({ message: "Juego favorito fue eliminado con éxito"});
 
         }catch(error){
