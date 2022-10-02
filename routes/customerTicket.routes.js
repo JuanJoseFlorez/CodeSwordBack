@@ -15,5 +15,8 @@ router.get('/getTickets', middlewareLogin.middleLoginAdmin, customerTicketContro
 //Ruta para traer una lista de todos los Ticket por Usuario
 router.get('/getTicket/:idUser', middlewareLogin.middleLogin, customerTicketController.getTicket);
 
+//Ruta para traer un ticket por su id
+router.get('/getTicketsbyticketid/:id', middlewareLogin.middleLogin, customerTicketController.getTicketByTicketId);
+
 //Exportar rutas a la App
 module.exports = router;
