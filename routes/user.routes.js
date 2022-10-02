@@ -24,5 +24,8 @@ router.get('/getUsers', middlewareLogin.middleLoginAdmin, userController.getUser
 //Ruta para traer un usuario
 router.get('/getUser/:id', userController.getUser);
 
+//Ruta para actualizar contraseña de usuario
+router.put('/updatePassword', userController.changePassword)
+
 //Exportar rutas a la App
 module.exports = router;

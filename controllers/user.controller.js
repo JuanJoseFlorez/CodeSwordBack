@@ -231,6 +231,37 @@ const getUser = async (req, res) =>{
     }
 }
 
+const changePassword = async(req, res) =>{
+
+    const { email, newPassword } = req.body;
+
+    if(!email || !newPassword){
+        return res.status(400).json({ message: "Datos requeridos"})
+    } else {
+        const user = await userCollention.findOne({ email: email }) 
+        if(user === null) return res.status(404).json({ message: "El usuario no existe"});
+
+        const encrypted_password = bcrypt.hashSync(newPassword, 10);
+
+        const filter = { email: email }
+
+        let result_user = {
+            $set:{
+                password: encrypted_password
+            },
+        }
+
+        try{
+            const result = await userCollention.updateOne(filter, result_user)
+            res.status(200).json({ message: "contraseña actualizada con éxito", user: user})
+        }catch(error){ 
+            res.status(500).json({ mesaage: "Ocurrio un error al actualizar la contraseña", error: error})
+            console.error(`Ocurrio un error: ${error}`);
+        }
+    }
+}
+
+
 exports.createUser = createUser
 exports.updateUser = updateUser
 exports.deleteUser = deleteUser
@@ -238,4 +269,5 @@ exports.loginUser = loginUser
 exports.validateToken = validateToken
 exports.getUsers = getUsers
 exports.getUser = getUser
+exports.changePassword = changePassword
 
