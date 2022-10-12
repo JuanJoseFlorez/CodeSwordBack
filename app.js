@@ -24,7 +24,9 @@ const favoriteGames = require('./routes/favoriteGames.routes');
 const commentsTickets = require('./routes/commentsTickets.routes');
 
 //middlewares
-app.use(cors());
+app.use(cors({
+    origin: '*'
+}));
 
 //Use Routes
 app.use('/user', user);
