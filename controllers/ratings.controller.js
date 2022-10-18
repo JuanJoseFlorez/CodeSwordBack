@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const ratings = mongose.model("ratings",{
     idUser: String,
     idGame: String,
-    estrellas: Number //Cambiar a stars
+    estrellas: Number
 })
 
 const createRating = async (req, res) => {
