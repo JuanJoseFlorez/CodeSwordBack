@@ -2,9 +2,6 @@ const mongose = require('../conexion');
 const bcrypt = require('bcrypt');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
-const nodemailer = require("nodemailer");
-const transporter = require('../mailer').transporter;
-
 
 const userCollention = mongose.model("user",{
     profileImage: String,
@@ -252,20 +249,6 @@ const changePassword = async(req, res) =>{
             $set:{
                 password: encrypted_password
             },
-        }
-
-        try{
-            
-            await transporter.sendMail({
-                from: `"Soporte CodeSword" ${process.env.EMAIL_AUTOMATICO}`, // sender address
-                to: user.email, // list of receivers
-                subject: "Recuperación de contraseña", // Subject line
-                text: "Hello world?", // plain text body
-                html: "<b>Hello world?</b>", // html body
-              });
-
-        }catch(error){
-            res.status(500).json({ mesaage: "Ocurrio un error al enviar el correo", error: error})
         }
 
         try{
