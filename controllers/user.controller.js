@@ -267,7 +267,7 @@ const envioMail = async (req, res) => {
                 text: `Hola ${response.name},\n`+
                 `Se ha solicitado un cambio de contraseña.\n \n`+
                 `Si no lo has solicitado, ignora este mensaje.\n \n`+
-                `De lo contrario, haga clic en este enlace para cambiar su contraseña: http://132.145.214.145/restablecer/${jwtToken}`
+                `De lo contrario, haga clic en este enlace para cambiar su contraseña: http://132.145.214.145:3000/restablecer/${jwtToken}`
             };
 
             transporter.sendMail(mailOptions, function(error, info){
