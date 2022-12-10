@@ -6,6 +6,11 @@ const middlewareLogin = require('../middlewares/middlewareLogin');
 //Ruta para crear Usuario
 router.post('/createUser', userController.createUser);
 
+//Ruta para envio mail
+router.post('/restablecer', userController.envioMail);
+//Ruta para envio mail
+router.put('/restablecer', userController.restablecerPass);
+
 //Ruta para actualizar Usuario
 router.put('/updateUser', middlewareLogin.middleLogin, userController.updateUser);
 
